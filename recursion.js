@@ -2,32 +2,75 @@
 // You will have to figure out what parameters to include
 // All functions must use recursion
 
-function findMax(){
-    // This function returns the largest number in a given array.
+const findMax = function(arr, index=1, max){
+    // if there's no max yet, set it to the first element
+    if(max == null && arr.length){
+        max = arr[0];
+    }
+    // the base case is when all indices have been searched
+    if(index == arr.length){
+        return max;
+    }else{
+        if(arr[index] >  max){
+            max = arr[index];
+        }
+        return findMax(arr, index+1, max);
+    }
 }
 
-function factorial(){
-    // This function returns the factorial of a given number.
+const factorial = function(num){
+    if (num == 1 || num == 0){
+        return 1;
+    } else {
+        return  num * factorial(num - 1);
+    }
 }
 
-function fibonacci(){
-    // This function returns the Nth number in the fibonacci sequence.
-    // https://en.wikipedia.org/wiki/Fibonacci_number
-    // For this function, the first two fibonacci numbers are 1 and 1
+const fibonacci = function(num){
+    if(num == 1 || num == 2){ 
+        return 1;
+    }
+    return fibonacci(num-1) + fibonacci(num-2);
 }
 
-function coinFlips(){
-    // This function returns an array of all possible outcomes from flipping a coin N times.
-    // Input type: Integer
-    // For example, coinFlips(2) would return the following:
-    // ["HH", "HT", "TH", "TT"]
-    // H stands for Heads and T stands for tails
-    // Represent the two outcomes of each flip as "H" or "T"
+const coinFlips = function(num){
+    const results = [];
+    console.log('Result: ',results);
+    function rCoinFlips(stem=""){
+        console.log('Stem: ', stem);
+        if(stem.length ===  num){
+            console.log('Results Stem before push: ', results, stem);
+            results.push(stem);
+            console.log('Results Stem 2 after push: ', results, stem);
+        } else {
+
+            rCoinFlips(stem+"H");
+            rCoinFlips(stem+"T");
+        }
+    }
+    rCoinFlips();
+    return results;
 }
 
-function letterCombinations(){
-    // This function returns an array of all combinations of the given letters
-    // Input type: Array of single characters
-    // For example, letterCombinations(["a","b","c"]) would return the following:
-    // ["a","b","c","ab","ac","ba","bc","ca","cb","abc","acb","bac","bca","cab","cba"]
+
+const letterCombinations = function(arr){
+    const results = [];
+    function rLetterCombinations(stem, remainder){
+        console.log('Stem: ', stem);
+        console.log('Remainder: ', remainder);
+        if(stem.length === arr.length){
+            results.push(stem);
+            return;
+        }
+        if(stem.length > 0){
+            results.push(stem);
+        }
+
+        for(let i = 0; i < remainder.length; i++){
+            const newRemainder  = remainder.slice(0,i).concat(remainder.slice(i+1));
+            rLetterCombinations(stem+remainder[i], newRemainder)
+        }
+    };
+    rLetterCombinations("", arr);
+    return results;
 }
